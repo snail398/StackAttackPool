@@ -1,22 +1,42 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FeederSpace;
 
-public class LevelController : MonoBehaviour
+namespace Root
 {
-    private void Awake()
+    public class LevelController : MonoBehaviour
     {
-        HeroInit();
-        FeederInit();
-    }
+        [SerializeField] private float timeToFeed;
+        [SerializeField] private float leftBorder;
+        [SerializeField] private float rigthBorder;
+        [SerializeField] private float craneSpeed;
+        [SerializeField] private Vector2 defaultBoxPosition;
 
-    private void HeroInit()
-    {
-        //Инициализация персонажа
-    }
+        private void Awake()
+        {
+            HeroInit();
+            FeederInit();
+        }
 
-    private void FeederInit()
-    {
-        //Инициализация податчика ящиков
+        private void HeroInit()
+        {
+            //Инициализация персонажа
+        }
+
+        private void FeederInit()
+        {
+            Feeder.Ctx feederCtx = new Feeder.Ctx
+            {
+                controller = this.gameObject,
+                defaultBoxPosition = defaultBoxPosition,
+                timeToFeed = timeToFeed,
+                rightBorder = rigthBorder,
+                leftBorder = leftBorder,
+                craneSpeed = craneSpeed,
+            };
+            Feeder feeder = new Feeder(feederCtx);
+            //Инициализация податчика ящиков
+        }
     }
 }

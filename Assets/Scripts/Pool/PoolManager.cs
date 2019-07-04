@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts.Pool
+namespace Pool
 {
     public static class PoolManager
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Pool
+namespace Pool
 {
     [AddComponentMenu("Pool/ObjectPooling")]
     public class ObjectPooling

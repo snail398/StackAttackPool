@@ -1,7 +1,7 @@
 ﻿using UniRx;
 using UnityEngine;
 
-namespace Assets.Scripts.Pool
+namespace Pool
 {
     [AddComponentMenu("Pool/PoolSetup")]
     public class PoolSetup : MonoBehaviour
