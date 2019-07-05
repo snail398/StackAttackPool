@@ -8,11 +8,12 @@ public class GroundControl : MonoBehaviour
     [SerializeField] private Transform raySource2;
     private RaycastHit realRayHit;
     private RaycastHit realRayHit2;
+
     public bool IsGrounded
     {
         get
         {
-            return realRayHit.distance < 0.01f || realRayHit2.distance < 0.01f;
+            return realRayHit.distance < 0.1f || realRayHit2.distance < 0.1f;
         }
     }
     

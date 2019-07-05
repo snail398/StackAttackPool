@@ -41,7 +41,7 @@ namespace Root
                 leftBorder = leftBorder,
                 craneSpeed = craneSpeed,
             };
-           // Feeder feeder = new Feeder(feederCtx);
+            Feeder feeder = new Feeder(feederCtx);
         }
 
         private void LevelCheckersInit()
