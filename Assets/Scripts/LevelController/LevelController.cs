@@ -26,6 +26,7 @@ namespace Root
 
         private void FeederInit()
         {
+            //Инициализация податчика ящиков
             Feeder.Ctx feederCtx = new Feeder.Ctx
             {
                 controller = this.gameObject,
@@ -36,7 +37,6 @@ namespace Root
                 craneSpeed = craneSpeed,
             };
             Feeder feeder = new Feeder(feederCtx);
-            //Инициализация податчика ящиков
         }
     }
 }

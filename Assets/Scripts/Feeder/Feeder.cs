@@ -30,12 +30,6 @@ namespace FeederSpace
                 rightBorder = _ctx.rightBorder,
             };
             _placeFinder = new PlaceFinder(placeFinderCtx);
-            Crane.Ctx craneCtx = new Crane.Ctx
-            {
-                placeFinder = _placeFinder,
-                speed = _ctx.craneSpeed,
-            };
-            _crane = new Crane(craneCtx);
             Observable.Timer(System.TimeSpan.FromSeconds(_ctx.timeToFeed))
                 .Repeat()
                 .Subscribe(_ => Feed())
@@ -44,16 +38,12 @@ namespace FeederSpace
 
         private void Feed()
         {
-            _crane.SendToField(PoolManager.GetObject("Box",GetBoxStartPosition(), Quaternion.identity));
+            PoolManager.GetObject("Box", GetBoxStartPosition(), Quaternion.identity);
         }
 
-        private Vector3 GetBoxStartPosition()
+        private Vector2 GetBoxStartPosition()
         {
-            float XPos;
-
-            if (Random.Range(0, 2) == 0) XPos = -_ctx.defaultBoxPosition.x;
-            else XPos = _ctx.defaultBoxPosition.x;
-            return new Vector3(XPos, _ctx.defaultBoxPosition.y, 0 );
+            return _placeFinder.GetPositionToDrop();
         }
     }
 }
