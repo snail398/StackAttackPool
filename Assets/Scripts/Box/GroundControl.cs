@@ -13,11 +13,11 @@ public class GroundControl : MonoBehaviour
     {
         get
         {
-            return realRayHit.distance < 0.1f || realRayHit2.distance < 0.1f;
+            return realRayHit.distance < 0.2f || realRayHit2.distance < 0.2f;
         }
     }
     
-    private void Update()
+    private void FixedUpdate()
     {
         if (Physics.Raycast(raySource.position, Vector3.down, out RaycastHit rayHit))
         {

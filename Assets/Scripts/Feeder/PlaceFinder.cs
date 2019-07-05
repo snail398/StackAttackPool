@@ -22,7 +22,7 @@ namespace FeederSpace
 
         public Vector2 GetPositionToDrop()
         {
-            return new Vector2(Random.Range(_ctx.leftBorder, _ctx.rightBorder), _ctx.defaultBoxPosition.y);
+            return new Vector2(Random.Range((int)_ctx.leftBorder, (int)_ctx.rightBorder), _ctx.defaultBoxPosition.y);
         }
     }
 }
