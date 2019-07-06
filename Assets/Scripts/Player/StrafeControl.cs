@@ -5,29 +5,33 @@ using UnityEngine;
 public class StrafeControl : MonoBehaviour
 {
     [SerializeField] private Transform leftBot;
-    [SerializeField] private Transform leftTop;
-    [SerializeField] private Transform rightTop;
     [SerializeField] private Transform rightBot;
     [SerializeField] private float cap = 1;
 
-    private RaycastHit _leftBotHit;
-    private RaycastHit _rightBotHit;
 
-    private RaycastHit _leftTopHit;
-    private RaycastHit _rightTopHit;
+    private List<Collider> _leftList = new List<Collider>();
+    private List<Collider> _rightList = new List<Collider>();
+    private List<Collider> _leftCarryList = new List<Collider>();
+    private List<Collider> _rightCarryList = new List<Collider>();
+    private Collider _collider;
+
+    public bool CanMoveLeft;
+    public bool CanMoveRight;
+    public bool CanCarryLeft1;
+    public bool CanCarryRight2;
 
     public bool CanLeft
     {
         get
         {
-            return !(_leftBotHit.distance < cap || _leftTopHit.distance < cap);
+            return _leftList.Count == 0;
         }
     }
     public bool CanRight
     {
         get
         {
-            return !(_rightBotHit.distance < cap || _rightTopHit.distance < cap);
+            return _rightList.Count == 0;
         }
     }
 
@@ -35,37 +39,70 @@ public class StrafeControl : MonoBehaviour
     {
         get
         {
-            return (_leftBotHit.distance < cap && _leftTopHit.distance > cap);
+            return _leftCarryList.Count == 0;
         }
     }
     public bool CanCarryRight
     {
         get
         {
-            return (_rightBotHit.distance < cap && _rightTopHit.distance > cap);
+            return _rightCarryList.Count == 0;
         }
     }
 
-    private void FixedUpdate()
+
+    private void Update()
     {
-        if (Physics.Raycast(leftBot.position, Vector3.left, out RaycastHit rayHit))
+        CanMoveLeft = CanLeft;
+        CanMoveRight = CanRight;
+        CanCarryLeft1 = CanCarryLeft;
+        CanCarryRight2 = CanCarryRight;
+}
+    private void Awake()
+    {
+        _collider = GetComponent<Collider>();
+    }
+       
+    private void OnCollisionStay(Collision collision)
+    {
+        foreach (ContactPoint contact in collision.contacts)
         {
-            _leftBotHit = rayHit;
-        }
-        if (Physics.Raycast(leftTop.position, Vector3.left, out RaycastHit rayHit2))
-        {
-            _leftTopHit = rayHit2;
-        }
-        if (Physics.Raycast(rightTop.position, Vector3.right, out RaycastHit rayHit3))
-        {
-            _rightTopHit = rayHit3;
-        }
-        if (Physics.Raycast(rightBot.position, Vector3.right, out RaycastHit rayHit4))
-        {
-            _rightBotHit = rayHit4;
+            if (Mathf.Abs(contact.point.y - _collider.bounds.min.y) > 0.01f)
+            {
+                if (contact.point.x < _collider.bounds.center.x)
+                {
+                    AddToList(_leftList, contact.otherCollider);
+                    if (contact.point.y > _collider.bounds.center.y + 0.5f * _collider.bounds.extents.y)
+                        AddToList(_leftCarryList, contact.otherCollider);
+                }
+                else
+                {
+                    AddToList(_rightList, contact.otherCollider);
+                    if (contact.point.y > _collider.bounds.center.y + 0.5f * _collider.bounds.extents.y)
+                        AddToList(_rightCarryList, contact.otherCollider);
+                }
+            }
         }
     }
+    private void OnCollisionExit(Collision collision)
+    {
+        RemoveFromList(_leftList, collision.collider);
+        RemoveFromList(_rightList, collision.collider);
+        RemoveFromList(_leftCarryList, collision.collider);
+        RemoveFromList(_rightCarryList, collision.collider);
+    }
 
+    private void AddToList(List<Collider> list, Collider col)
+    {
+        if(!list.Contains(col))
+            list.Add(col);
+    }
+
+    private void RemoveFromList(List<Collider> list, Collider col)
+    {
+        if (list.Contains(col))
+            list.Remove(col);
+    }
     public Transform GetGOLeft()
     {
         if (Physics.Raycast(leftBot.position, Vector3.left, out RaycastHit rayHit))

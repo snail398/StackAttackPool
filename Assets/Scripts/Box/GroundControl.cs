@@ -1,31 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GroundControl : MonoBehaviour
 {
-    [SerializeField] private Transform raySource;
-    [SerializeField] private Transform raySource2;
-    private RaycastHit realRayHit;
-    private RaycastHit realRayHit2;
-
+    private List<Collider> _colliderList = new List<Collider>();
+    private Collider _collider;
     public bool IsGrounded
     {
         get
         {
-            return realRayHit.distance < 0.2f || realRayHit2.distance < 0.2f;
+            return _colliderList.Count > 0;
         }
     }
     
-    private void FixedUpdate()
+    private void Awake()
     {
-        if (Physics.Raycast(raySource.position, Vector3.down, out RaycastHit rayHit))
+        _collider = GetComponent<Collider>();
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        foreach (ContactPoint contact in collision.contacts)
         {
-            realRayHit = rayHit;
+            if (!_colliderList.Contains(contact.otherCollider) && Mathf.Abs(contact.point.y - _collider.bounds.min.y) < 0.01f)
+                _colliderList.Add(contact.otherCollider);
         }
-        if (Physics.Raycast(raySource2.position, Vector3.down, out RaycastHit rayHit2))
-        {
-            realRayHit2 = rayHit2;
-        }
-    }  
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (_colliderList.Contains(collision.collider))
+            _colliderList.Remove(collision.collider);
+    }
 }

@@ -14,6 +14,7 @@ public class KeyboardController : MonoBehaviour
     private Vector3 _boxOffset;
     private Transform _movedBox;
     private Transform _prevParent;
+    private int _startBoxMass = 1000000;
 
     private void Awake()
     {
@@ -30,6 +31,8 @@ public class KeyboardController : MonoBehaviour
             MoveRight();
         if (Input.GetKeyDown(KeyCode.UpArrow) && _groundChecker.IsGrounded)
             Jump();
+        if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow))
+            TakeOffBox();
     }
 
     private void Jump()
@@ -43,23 +46,27 @@ public class KeyboardController : MonoBehaviour
             transform.position += transform.right * Time.deltaTime * speed;
         else if (_strafeChecker.CanCarryRight)
         {
-            _movedBox = _strafeChecker.GetGORight();
+            if (_movedBox == null)
+                _movedBox = _strafeChecker.GetGORight();
             if (_movedBox.tag == "Box")
             {
-                Vector3 offset = transform.right * Time.deltaTime * speed / 3;
-                transform.position += offset;
-                _movedBox.position += offset;
-                /*
-                    if (Physics.Raycast(raySource2.position + _boxOffset, Vector3.right, out RaycastHit rayHitFromBox))
-                    {
-                        if (rayHitFromBox.distance > 0.05f)
-                        {
-                            _rb.MovePosition(transform.position + transform.right * Time.deltaTime * speed / 3);
-                            rayHit.transform.GetComponent<Rigidbody>().MovePosition(rayHit.transform.position + transform.right * Time.deltaTime * speed / 3);
-                        }
-                    }
-                    */
+                if (_movedBox.GetComponent<StrafeControl>().CanRight)
+                {
+                    Vector3 offset = transform.right * Time.deltaTime * speed / 3;
+                    transform.position += offset;
+                    _movedBox.position += offset;
+                }
             }
+        }
+    }
+
+    private void TakeOffBox()
+    {
+        if (_movedBox != null )
+        {
+            if ( _movedBox.tag == "Box")
+                _movedBox.GetComponent<Rigidbody>().mass = _startBoxMass;
+            _movedBox = null;
         }
     }
 
@@ -69,22 +76,17 @@ public class KeyboardController : MonoBehaviour
             transform.position -= transform.right * Time.deltaTime * speed;
         else if(_strafeChecker.CanCarryLeft)
         {
-            _movedBox = _strafeChecker.GetGOLeft    ();
+            if (_movedBox == null)
+                _movedBox = _strafeChecker.GetGOLeft();
             if (_movedBox.tag == "Box")
             {
-                Vector3 offset = -transform.right * Time.deltaTime * speed / 3;
-                transform.position += offset;
-                _movedBox.position += offset;
-                /*
-                    if (Physics.Raycast(raySource.position - _boxOffset, Vector3.left, out RaycastHit rayHitFromBox))
-                    {
-                        if (rayHitFromBox.distance > 0.05f)
-                        {
-                            _rb.MovePosition(transform.position - transform.right * Time.deltaTime * speed / 3);
-                            rayHit.transform.GetComponent<Rigidbody>().MovePosition(rayHit.transform.position - transform.right * Time.deltaTime * speed / 3);
-                        }
-                    }
-                    */
+                if (_movedBox.GetComponent<StrafeControl>().CanLeft)
+                {
+                    _movedBox.GetComponent<Rigidbody>().mass = _startBoxMass / 100;
+                    Vector3 offset = -transform.right * Time.deltaTime * speed / 3;
+                    transform.position += offset;
+                    _movedBox.position += offset;
+                }
             }
         }
     }
