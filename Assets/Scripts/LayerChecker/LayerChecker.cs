@@ -37,7 +37,9 @@ namespace LayerCheckerSpace
                         boxList.Add(hit.transform.gameObject.GetComponent<PoolObject>());
             }
             if (boxList.Count == _ctx.boxInRowCount)
+            {
                 DeleteRow(boxList);
+            }
         }
 
         private void DeleteRow(List<PoolObject> list)

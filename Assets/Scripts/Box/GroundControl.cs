@@ -12,23 +12,45 @@ public class GroundControl : MonoBehaviour
             return _colliderList.Count > 0;
         }
     }
-    
+
+    public bool OnGround;
     private void Awake()
     {
         _collider = GetComponent<Collider>();
+    }
+
+    private void Update()
+    {
+        OnGround = IsGrounded;
+        if (_colliderList.Count != 0)
+            foreach (Collider otherCollider in _colliderList)
+            {
+                if (otherCollider.bounds.min.x == _collider.bounds.max.x || otherCollider.bounds.max.x == _collider.bounds.min.x)
+                {
+                    RemoveFromList(otherCollider);
+                    break;
+                }
+            }
     }
 
     private void OnCollisionStay(Collision collision)
     {
         foreach (ContactPoint contact in collision.contacts)
         {
-            if (!_colliderList.Contains(contact.otherCollider) && Mathf.Abs(contact.point.y - _collider.bounds.min.y) < 0.01f)
+            if (!_colliderList.Contains(contact.otherCollider) && Mathf.Abs(contact.point.y - _collider.bounds.min.y) < 0.01f && Mathf.Abs(contact.point.y - contact.otherCollider.bounds.max.y) < 0.01f)
+            {
                 _colliderList.Add(contact.otherCollider);
+            }
         }
     }
     private void OnCollisionExit(Collision collision)
     {
-        if (_colliderList.Contains(collision.collider))
-            _colliderList.Remove(collision.collider);
+        RemoveFromList(collision.collider);
+    }
+
+    private void RemoveFromList(Collider collider)
+    {
+        if (_colliderList.Contains(collider))
+            _colliderList.Remove(collider);
     }
 }
