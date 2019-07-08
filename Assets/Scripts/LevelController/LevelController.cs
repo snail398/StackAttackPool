@@ -16,6 +16,7 @@ namespace Root
         [SerializeField] private Vector2 defaultBoxPosition;
         [SerializeField] private LayerChecker layerCheckerPrefab;
         [SerializeField] private int boxInRowCount;
+        [SerializeField] private List<Material> materials;
 
         private void Awake()
         {
@@ -40,6 +41,7 @@ namespace Root
                 rightBorder = rigthBorder,
                 leftBorder = leftBorder,
                 craneSpeed = craneSpeed,
+                materials = materials,
             };
             Feeder feeder = new Feeder(feederCtx);
         }

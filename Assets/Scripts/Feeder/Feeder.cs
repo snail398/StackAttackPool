@@ -1,6 +1,7 @@
 ﻿using Pool;
 using UniRx;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace FeederSpace
 {
@@ -14,6 +15,7 @@ namespace FeederSpace
             public float craneSpeed;
             public Vector2 defaultBoxPosition;
             public GameObject controller;
+            public List<Material> materials;
         };
 
         private Ctx _ctx;
@@ -38,12 +40,18 @@ namespace FeederSpace
 
         private void Feed()
         {
-            PoolManager.GetObject("Box", GetBoxStartPosition(), Quaternion.identity);
+            SetBoxType(PoolManager.GetObject("Box", GetBoxStartPosition(), Quaternion.identity));
         }
 
         private Vector2 GetBoxStartPosition()
         {
             return _placeFinder.GetPositionToDrop();
+        }
+
+        private void SetBoxType(GameObject box)
+        {
+            int rnd = Random.Range(0, _ctx.materials.Count);
+            box.GetComponent<MeshRenderer>().material = _ctx.materials[rnd];
         }
     }
 }
