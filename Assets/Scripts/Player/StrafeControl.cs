@@ -49,15 +49,43 @@ public class StrafeControl : MonoBehaviour
             return _rightCarryList.Count == 0;
         }
     }
-
-
+    private void OnEnable()
+    {
+        ClearList(_leftList);
+        ClearList(_rightList);
+        ClearList(_leftCarryList);
+        ClearList(_rightCarryList);
+    }
+    
     private void Update()
     {
         CanMoveLeft = CanLeft;
         CanMoveRight = CanRight;
         CanCarryLeft1 = CanCarryLeft;
         CanCarryRight2 = CanCarryRight;
-}
+    }
+
+    private void FixedUpdate()
+    {
+        if (_leftList.Count != 0)
+            foreach (Collider otherCollider in _leftList)
+            {
+                if (((otherCollider.bounds.min.x == _collider.bounds.max.x || otherCollider.bounds.max.x == _collider.bounds.min.x) && Mathf.Abs(otherCollider.bounds.max.y - _collider.bounds.min.y) < 0.1f) || otherCollider.transform.gameObject.activeSelf == false)
+                {
+                    RemoveFromList(_leftList, otherCollider);
+                    break;
+                }
+            }
+        if (_rightList.Count != 0)
+            foreach (Collider otherCollider in _rightList)
+            {
+                if (((otherCollider.bounds.min.x == _collider.bounds.max.x || otherCollider.bounds.max.x == _collider.bounds.min.x) && Mathf.Abs(otherCollider.bounds.max.y -_collider.bounds.min.y) < 0.1f) || otherCollider.transform.gameObject.activeSelf == false)
+                {
+                    RemoveFromList(_rightList, otherCollider);
+                    break;
+                }
+            }
+    }
     private void Awake()
     {
         _collider = GetComponent<Collider>();
@@ -67,7 +95,8 @@ public class StrafeControl : MonoBehaviour
     {
         foreach (ContactPoint contact in collision.contacts)
         {
-            if (Mathf.Abs(contact.point.y - _collider.bounds.min.y) > 0.01f)
+            // if (Mathf.Abs(contact.point.y - _collider.bounds.min.y) > 0.1f)
+            if (Mathf.Abs(contact.point.y - contact.otherCollider.bounds.max.y) > 0.1f)
             {
                 if (contact.point.x < _collider.bounds.center.x)
                 {
@@ -102,6 +131,11 @@ public class StrafeControl : MonoBehaviour
     {
         if (list.Contains(col))
             list.Remove(col);
+    }
+    
+    private void ClearList(List<Collider> list)
+    {
+        list.Clear();
     }
     public Transform GetGOLeft()
     {

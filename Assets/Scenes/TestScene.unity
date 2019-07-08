@@ -225,7 +225,7 @@ MonoBehaviour:
   defaultBoxPosition: {x: 0, y: 16}
   layerCheckerPrefab: {fileID: 1803697233814956822, guid: 05d9c8783f4c90a4986d3ff2a27e092c,
     type: 3}
-  boxInRowCount: 8
+  boxInRowCount: 9
 --- !u!1 &789786804
 GameObject:
   m_ObjectHideFlags: 0
@@ -840,7 +840,7 @@ PrefabInstance:
     - target: {fileID: 1953718840237846693, guid: 0b870c6a987492e43b5e548e827d0f44,
         type: 3}
       propertyPath: boxInRowCount
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1953718840237846693, guid: 0b870c6a987492e43b5e548e827d0f44,
         type: 3}
@@ -864,7 +864,7 @@ PrefabInstance:
     - target: {fileID: 4046708294733327104, guid: e8c157b40fc1e1642b9638df44dbc0ca,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.28
+      value: 3.7
       objectReference: {fileID: 0}
     - target: {fileID: 4046708294733327104, guid: e8c157b40fc1e1642b9638df44dbc0ca,
         type: 3}

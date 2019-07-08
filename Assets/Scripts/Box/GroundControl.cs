@@ -13,6 +13,11 @@ public class GroundControl : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        _colliderList.Clear();
+    }
+
     public bool OnGround;
     private void Awake()
     {
@@ -25,7 +30,7 @@ public class GroundControl : MonoBehaviour
         if (_colliderList.Count != 0)
             foreach (Collider otherCollider in _colliderList)
             {
-                if (otherCollider.bounds.min.x == _collider.bounds.max.x || otherCollider.bounds.max.x == _collider.bounds.min.x)
+                if (otherCollider.bounds.min.x == _collider.bounds.max.x || otherCollider.bounds.max.x == _collider.bounds.min.x || otherCollider.transform.gameObject.activeSelf == false)
                 {
                     RemoveFromList(otherCollider);
                     break;
