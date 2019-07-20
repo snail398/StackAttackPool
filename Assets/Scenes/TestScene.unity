@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: 789786807}
   - component: {fileID: 789786806}
   m_Layer: 9
-  m_Name: Wall
+  m_Name: LeftWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -508,7 +508,7 @@ Camera:
   far clip plane: 1000
   field of view: 9.1
   orthographic: 1
-  orthographic size: 8.5
+  orthographic size: 9
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -532,7 +532,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1285352420}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 8.5, z: -25}
+  m_LocalPosition: {x: 0, y: 9, z: -25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -617,7 +617,7 @@ GameObject:
   - component: {fileID: 1965471424}
   - component: {fileID: 1965471423}
   m_Layer: 9
-  m_Name: Wall
+  m_Name: RightWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -712,12 +712,12 @@ PrefabInstance:
     - target: {fileID: 4046708294733327104, guid: e8c157b40fc1e1642b9638df44dbc0ca,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.05
+      value: -0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4046708294733327104, guid: e8c157b40fc1e1642b9638df44dbc0ca,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.64
+      value: 5.36
       objectReference: {fileID: 0}
     - target: {fileID: 4046708294733327104, guid: e8c157b40fc1e1642b9638df44dbc0ca,
         type: 3}
@@ -915,5 +915,25 @@ PrefabInstance:
       propertyPath: timeToFeed
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 8180962425560474858, guid: 6b9d1e73aa1f0fe40bbb8f77f2db6f2d,
+        type: 3}
+      propertyPath: leftWall
+      value: 
+      objectReference: {fileID: 789786805}
+    - target: {fileID: 8180962425560474858, guid: 6b9d1e73aa1f0fe40bbb8f77f2db6f2d,
+        type: 3}
+      propertyPath: rightWall
+      value: 
+      objectReference: {fileID: 1965471422}
+    - target: {fileID: 8180962425560474858, guid: 6b9d1e73aa1f0fe40bbb8f77f2db6f2d,
+        type: 3}
+      propertyPath: boxInRowCount
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8180962425560474858, guid: 6b9d1e73aa1f0fe40bbb8f77f2db6f2d,
+        type: 3}
+      propertyPath: mcamera
+      value: 
+      objectReference: {fileID: 1285352422}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b9d1e73aa1f0fe40bbb8f77f2db6f2d, type: 3}

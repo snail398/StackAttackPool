@@ -10,19 +10,21 @@ namespace Root
     public class LevelController : MonoBehaviour
     {
         [SerializeField] private float timeToFeed;
-        [SerializeField] private float leftBorder;
-        [SerializeField] private float rigthBorder;
         [SerializeField] private float craneSpeed;
         [SerializeField] private Vector2 defaultBoxPosition;
         [SerializeField] private LayerChecker layerCheckerPrefab;
         [SerializeField] private int boxInRowCount;
         [SerializeField] private List<Material> materials;
-
+        [SerializeField] private Transform leftWall;
+        [SerializeField] private Transform rightWall;
+        [SerializeField] private Camera mcamera;
         private void Awake()
         {
             HeroInit();
+            ConstructorInit();
             FeederInit();
             LevelCheckersInit();
+
         }
 
         private void HeroInit()
@@ -38,8 +40,8 @@ namespace Root
                 controller = this.gameObject,
                 defaultBoxPosition = defaultBoxPosition,
                 timeToFeed = timeToFeed,
-                rightBorder = rigthBorder,
-                leftBorder = leftBorder,
+                rightBorder = rightWall.position.x - 1,
+                leftBorder = leftWall.position.x + 1,
                 craneSpeed = craneSpeed,
                 materials = materials,
             };
@@ -63,6 +65,19 @@ namespace Root
         private int GetLayerCheckerCount()
         {
             return 10;
+        }
+
+        private void ConstructorInit()
+        {
+            
+            LevelConstructor.Ctx levelConstructorCtx = new LevelConstructor.Ctx
+            {
+                boxInRowCount = boxInRowCount,
+                leftWall = leftWall,
+                rightWall = rightWall,
+                mcamera = mcamera,
+            };
+            LevelConstructor levelConstructor = new LevelConstructor(levelConstructorCtx);
         }
     }
 }
